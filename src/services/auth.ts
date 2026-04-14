@@ -1,11 +1,11 @@
-import axios from '../axios';
+import api from '../api';
 
 import type { User } from '../interfaces/user';
 
-const fetchSession = () => axios.get<{ authenticated: boolean; spotifyConnected: boolean }>('/session');
-const login = (password: string) => axios.post('/login', { password });
-const logout = () => axios.post('/logout');
-const fetchUser = () => axios.get<User>('/me');
+const fetchSession = () => api.get<{ authenticated: boolean; spotifyConnected: boolean }>('/session');
+const login = (password: string) => api.post('/login', { password });
+const logout = () => api.post('/logout');
+const fetchUser = () => api.get<User>('/me');
 
 export const authService = {
   fetchSession,

@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import { uiActions } from './store/slices/ui';
 import { PersistGate } from 'redux-persist/integration/react';
 import { authActions, loginToSpotify } from './store/slices/auth';
-import axios from './axios';
+import api from './api';
 import { persistor, store, useAppDispatch, useAppSelector } from './store/store';
 
 // Spotify
@@ -72,7 +72,7 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
       playerRefreshRateMs: 1000,
       playerName: 'Spotify React Player',
       onPlayerRequestAccessToken: () =>
-        axios.get<{ access_token: string }>('/spotify/token').then((res) => res.data.access_token),
+        api.get<{ access_token: string }>('/spotify/token').then((res) => res.data.access_token),
       onPlayerLoading: () => {},
       onPlayerWaitingForDevice: () => {
         dispatch(authActions.setPlayerLoaded({ playerLoaded: true }));
