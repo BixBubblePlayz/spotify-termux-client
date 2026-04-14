@@ -45,7 +45,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "serve": "node server/index.js",
-    "termux": "concurrently -k \"npm run serve\" \"HOST=0.0.0.0 npm start\""
+    "termux": "sh scripts/termux.sh"
   },
   "eslintConfig": {
     "extends": [
@@ -80,8 +80,7 @@
     "@types/tinycolor2": "^1.4.6",
     "sass": "^1.98.0",
     "typescript": "^5.8.2",
-    "web-vitals": "^5.2.0",
-    "concurrently": "^9.0.1"
+    "web-vitals": "^5.2.0"
   },
   "proxy": "http://127.0.0.1:3001"
 }
