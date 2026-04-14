@@ -74,7 +74,7 @@ export const fetchRecentlyPlayed = createAsyncThunk('home/fetchRecentlyPlayed', 
 
     const groupedItems = groupBy(
       (items || []).filter((item) => ['artist', 'playlist', 'album'].includes(item.context?.type)),
-      (item) => item.context.type
+      (item) => item.context?.type || 'unknown'
     );
 
     const artistsTracks = groupedItems['artist'] || [];
@@ -100,7 +100,7 @@ export const fetchRecentlyPlayed = createAsyncThunk('home/fetchRecentlyPlayed', 
     // @ts-ignore
     const albums: Album[] = albumsResponse.data.albums;
 
-    const tracks = items.map((item) => {
+    const tracks = (items || []).map((item) => {
       if (item.context?.type === 'artist') {
         return artists.find((artist) => artist.id === item.context.uri.split(':')[2])!;
       }

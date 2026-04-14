@@ -87,12 +87,16 @@ export const getLibraryItems = createSelector(
     (state: RootState) => state.yourLibrary.myPlaylists,
   ],
   (user, filter, myAlbums, myArtists, myPlaylists) => {
-    if (filter === 'ALBUMS') return myAlbums;
-    if (filter === 'ARTISTS') return myArtists;
-    if (filter === 'PLAYLISTS') return myPlaylists;
+    const albums = Array.isArray(myAlbums) ? myAlbums : [];
+    const artists = Array.isArray(myArtists) ? myArtists : [];
+    const playlists = Array.isArray(myPlaylists) ? myPlaylists : [];
+
+    if (filter === 'ALBUMS') return albums;
+    if (filter === 'ARTISTS') return artists;
+    if (filter === 'PLAYLISTS') return playlists;
 
     if (!user) return [];
-    if (!(myAlbums || []).length && !(myArtists || []).length && !(myPlaylists || []).length) return [];
+    if (!albums.length && !artists.length && !playlists.length) return [];
 
     const likedSongs: Playlist = {
       id: 'liked-songs',
@@ -112,34 +116,34 @@ export const getLibraryItems = createSelector(
     };
 
     return [
-      myPlaylists.slice(0, 3),
+      playlists.slice(0, 3),
       likedSongs,
-      myAlbums.slice(0, 2),
-      myPlaylists.slice(3, 6),
-      myArtists.slice(0, 1),
-      myAlbums.slice(2, 5),
-      myArtists.slice(1, 2),
-      myPlaylists.slice(6, 10),
-      myAlbums.slice(5, 9),
-      myArtists.slice(2, 6),
-      myPlaylists.slice(10, 15),
-      myAlbums.slice(9, 13),
-      myArtists.slice(6, 10),
-      myPlaylists.slice(15, 20),
-      myAlbums.slice(13, 17),
-      myArtists.slice(10, 14),
-      myPlaylists.slice(20, 25),
-      myAlbums.slice(17, 21),
-      myArtists.slice(14, 18),
-      myPlaylists.slice(25, 30),
-      myAlbums.slice(21, 25),
-      myArtists.slice(18, 22),
-      myPlaylists.slice(30, 35),
-      myAlbums.slice(25, 43),
+      albums.slice(0, 2),
+      playlists.slice(3, 6),
+      artists.slice(0, 1),
+      albums.slice(2, 5),
+      artists.slice(1, 2),
+      playlists.slice(6, 10),
+      albums.slice(5, 9),
+      artists.slice(2, 6),
+      playlists.slice(10, 15),
+      albums.slice(9, 13),
+      artists.slice(6, 10),
+      playlists.slice(15, 20),
+      albums.slice(13, 17),
+      artists.slice(10, 14),
+      playlists.slice(20, 25),
+      albums.slice(17, 21),
+      artists.slice(14, 18),
+      playlists.slice(25, 30),
+      albums.slice(21, 25),
+      artists.slice(18, 22),
+      playlists.slice(30, 35),
+      albums.slice(25, 43),
       // all the rest
-      myPlaylists.slice(35),
-      myArtists.slice(22),
-      myAlbums.slice(43),
+      playlists.slice(35),
+      artists.slice(22),
+      albums.slice(43),
     ]
       .filter((r) => r)
       .flat();
