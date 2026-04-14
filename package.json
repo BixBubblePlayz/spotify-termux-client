@@ -82,5 +82,11 @@
     "typescript": "^5.8.2",
     "web-vitals": "^5.2.0"
   },
-  "proxy": "http://127.0.0.1:3001"
+  "proxy": "http://127.0.0.1:3001",
+  "overrides": {
+    "ajv": "8.12.0",
+    "ajv-keywords": "5.1.0",
+    "schema-utils": "4.3.3",
+    "terser-webpack-plugin": "5.3.14"
+  }
 }
