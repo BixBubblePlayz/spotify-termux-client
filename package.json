@@ -84,8 +84,8 @@
   },
   "proxy": "http://127.0.0.1:3001",
   "overrides": {
-    "ajv": "8.12.0",
-    "ajv-keywords": "5.1.0",
+    "ajv": "6.12.6",
+    "ajv-keywords": "3.5.2",
     "schema-utils": "3.1.1",
     "terser-webpack-plugin": "5.3.14",
     "fork-ts-checker-webpack-plugin": "6.5.3"
