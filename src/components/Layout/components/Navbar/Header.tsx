@@ -71,11 +71,6 @@ const Header = ({ opacity }: { opacity: number; title?: string }) => {
             </a>
           ) : null}
 
-          {/*
-          <div className='news'>
-            <News />
-          </div> */}
-
           {user ? (
             <div className='avatar-container'>
               <Link to={`/users/${user!.id}`}>

@@ -9,36 +9,36 @@ import { authService } from '../../services/auth';
 
 // Interfaces
 import type { User } from '../../interfaces/user';
-import { getFromLocalStorageWithExpiry } from '../../utils/localstorage';
 
 const initialState: { token?: string; playerLoaded: boolean; user?: User; requesting: boolean } = {
   user: undefined,
   requesting: true,
   playerLoaded: false,
-  token: getFromLocalStorageWithExpiry('access_token') || undefined,
+  token: undefined,
 };
 
 export const loginToSpotify = createAsyncThunk<{ token?: string; loaded: boolean }>(
   'auth/loginToSpotify',
   async (_, thunkAPI) => {
-    const userToken: string | undefined = getFromLocalStorageWithExpiry('access_token') as string;
+    const session = await authService.fetchSession().then((r) => r.data).catch(() => ({ authenticated: false }));
 
-    if (userToken) {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userToken;
-      thunkAPI.dispatch(fetchUser());
-      return { token: userToken, loaded: false };
+    if (!session.authenticated) {
+      return { token: undefined, loaded: true };
     }
 
-    let [requestedToken, requestUser] = await login.getToken();
-    if (requestUser) thunkAPI.dispatch(fetchUser());
-
-    if (!requestedToken) {
-      login.logInWithSpotify();
-    } else {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + requestedToken;
+    try {
+      const [requestedToken] = await login.getToken();
+      if (requestedToken) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + requestedToken;
+        thunkAPI.dispatch(fetchUser());
+        return { token: requestedToken, loaded: true };
+      }
+    } catch {
+      // fall through to redirect
     }
 
-    return { token: requestedToken, loaded: true };
+    login.logInWithSpotify();
+    return { token: undefined, loaded: false };
   }
 );
 

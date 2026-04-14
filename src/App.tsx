@@ -4,7 +4,6 @@ import './styles/App.scss';
 // Utils
 import i18next from 'i18next';
 import { FC, Suspense, lazy, memo, useCallback, useEffect, useMemo, useRef } from 'react';
-import { getFromLocalStorageWithExpiry } from './utils/localstorage';
 
 // Components
 import { ConfigProvider } from 'antd';
@@ -16,6 +15,7 @@ import { Provider } from 'react-redux';
 import { uiActions } from './store/slices/ui';
 import { PersistGate } from 'redux-persist/integration/react';
 import { authActions, loginToSpotify } from './store/slices/auth';
+import axios from './axios';
 import { persistor, store, useAppDispatch, useAppSelector } from './store/store';
 
 // Spotify
@@ -59,18 +59,10 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => !!state.auth.user);
-  const token = useAppSelector((state) => state.auth.token);
   const requesting = useAppSelector((state) => state.auth.requesting);
 
   useEffect(() => {
-    const tokenInLocalStorage = getFromLocalStorageWithExpiry('access_token');
-    dispatch(authActions.setToken({ token: tokenInLocalStorage }));
-
-    if (tokenInLocalStorage) {
-      dispatch(authActions.fetchUser());
-    } else {
-      dispatch(loginToSpotify());
-    }
+    dispatch(loginToSpotify());
   }, [dispatch]);
 
   const webPlaybackSdkProps: WebPlaybackProps = useMemo(
@@ -79,7 +71,8 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
       playerInitialVolume: 1.0,
       playerRefreshRateMs: 1000,
       playerName: 'Spotify React Player',
-      onPlayerRequestAccessToken: () => Promise.resolve(token!),
+      onPlayerRequestAccessToken: () =>
+        axios.get<{ access_token: string }>('/spotify/token').then((res) => res.data.access_token),
       onPlayerLoading: () => {},
       onPlayerWaitingForDevice: () => {
         dispatch(authActions.setPlayerLoaded({ playerLoaded: true }));
@@ -91,7 +84,7 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
         dispatch(authActions.setPlayerLoaded({ playerLoaded: true }));
       },
     }),
-    [dispatch, token]
+    [dispatch]
   );
 
   if (!user) return <Spinner loading={requesting}>{children}</Spinner>;

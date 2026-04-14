@@ -29,7 +29,11 @@
     "redux-persist": "^6.0.0",
     "redux-persist-expire": "^1.1.1",
     "tinycolor2": "^1.6.0",
-    "use-debounce": "^10.1.1"
+    "use-debounce": "^10.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1"
   },
   "resolutions": {
     "underscore": "1.13.8"
@@ -39,7 +43,8 @@
     "build": "react-scripts build && cp build/index.html build/404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "serve": "node server/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -75,5 +80,6 @@
     "sass": "^1.98.0",
     "typescript": "^5.8.2",
     "web-vitals": "^5.2.0"
-  }
+  },
+  "proxy": "http://127.0.0.1:3001"
 }
