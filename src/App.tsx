@@ -68,7 +68,7 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
   const webPlaybackSdkProps: WebPlaybackProps = useMemo(
     () => ({
       playerAutoConnect: true,
-      playerInitialVolume: 0.12,
+      playerInitialVolume: 0.05,
       playerRefreshRateMs: 1000,
       playerName: 'Spotify React Player',
       onPlayerRequestAccessToken: () =>

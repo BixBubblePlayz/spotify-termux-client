@@ -28,7 +28,7 @@ const getIcon = (volume: number) => {
 
 export const VolumeControls = () => {
   const { t } = useTranslation(['playingBar']);
-  const [volume, setVolume] = useState<number>(0.12);
+  const [volume, setVolume] = useState<number>(0.05);
 
   const muted = volume === 0;
 
@@ -39,7 +39,7 @@ export const VolumeControls = () => {
           <div
             onClick={() => {
               playerService.setVolume(muted ? Math.round(volume * 100) : 0).then();
-              setVolume(muted ? volume : 0.12);
+              setVolume(muted ? volume : 0.05);
             }}
           >
             {getIcon(muted ? 0 : volume)}
