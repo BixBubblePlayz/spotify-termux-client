@@ -28,7 +28,7 @@ const getIcon = (volume: number) => {
 
 export const VolumeControls = () => {
   const { t } = useTranslation(['playingBar']);
-  const [volume, setVolume] = useState<number>(1);
+  const [volume, setVolume] = useState<number>(0.12);
 
   const muted = volume === 0;
 
@@ -38,8 +38,8 @@ export const VolumeControls = () => {
         <Tooltip title={muted ? t('Unmute') : t('Mute')}>
           <div
             onClick={() => {
-              playerService.setVolume(muted ? volume : 100).then();
-              setVolume(muted ? volume : 1);
+              playerService.setVolume(muted ? Math.round(volume * 100) : 0).then();
+              setVolume(muted ? volume : 0.12);
             }}
           >
             {getIcon(muted ? 0 : volume)}
