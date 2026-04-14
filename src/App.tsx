@@ -78,7 +78,7 @@ const SpotifyContainer: FC<{ children: any }> = memo(({ children }) => {
         dispatch(authActions.setPlayerLoaded({ playerLoaded: true }));
       },
       onPlayerError: (e) => {
-        dispatch(loginToSpotify());
+        console.log('player error', e);
       },
       onPlayerDeviceSelected: () => {
         dispatch(authActions.setPlayerLoaded({ playerLoaded: true }));

@@ -92,7 +92,7 @@ export const getLibraryItems = createSelector(
     if (filter === 'PLAYLISTS') return myPlaylists;
 
     if (!user) return [];
-    if (!myAlbums.length && !myArtists.length && !myPlaylists.length) return [];
+    if (!(myAlbums || []).length && !(myArtists || []).length && !(myPlaylists || []).length) return [];
 
     const likedSongs: Playlist = {
       id: 'liked-songs',
@@ -149,7 +149,7 @@ export const getLibraryItems = createSelector(
 export const getUserPlaylists = createSelector(
   [(state: RootState) => state.yourLibrary.myPlaylists, (state: RootState) => state.auth.user],
   (playlists, user) => {
-    return playlists.filter((playlist) => playlist.owner?.id === user?.id);
+    return (playlists || []).filter((playlist) => playlist.owner?.id === user?.id);
   }
 );
 

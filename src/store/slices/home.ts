@@ -70,10 +70,10 @@ export const fetchRecentlyPlayed = createAsyncThunk('home/fetchRecentlyPlayed', 
   try {
     const response = await playerService.getRecentlyPlayed({ limit: 50 });
 
-    const items = response.items;
+    const items = response.items || [];
 
     const groupedItems = groupBy(
-      items.filter((item) => ['artist', 'playlist', 'album'].includes(item.context?.type)),
+      (items || []).filter((item) => ['artist', 'playlist', 'album'].includes(item.context?.type)),
       (item) => item.context.type
     );
 
