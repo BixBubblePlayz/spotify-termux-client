@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 // Redux
 import { uiActions } from '../../../../store/slices/ui';
 import { loginToSpotify } from '../../../../store/slices/auth';
+import { authService } from '../../../../services/auth';
 import { useAppDispatch, useAppSelector } from '../../../../store/store';
 
 // Constants
@@ -26,6 +27,17 @@ const LoginButton = () => {
     dispatch(uiActions.closeLoginButton());
   }, [dispatch]);
 
+  const handleLogin = async () => {
+    const password = window.prompt('Password');
+    if (!password) return;
+    try {
+      await authService.login(password);
+      await dispatch(loginToSpotify());
+    } catch {
+      window.alert('Wrong password');
+    }
+  };
+
   return (
     <Popconfirm
       icon={null}
@@ -39,7 +51,7 @@ const LoginButton = () => {
       okButtonProps={{ className: 'white-button small' }}
       description={t('Log in to add this to your Liked Songs.')}
     >
-      <WhiteButton title={t('Log In')} onClick={() => dispatch(loginToSpotify())} />
+      <WhiteButton title={t('Log In')} onClick={handleLogin} />
     </Popconfirm>
   );
 };
