@@ -32,7 +32,8 @@ const LoginButton = () => {
     if (!password) return;
     try {
       await authService.login(password);
-      await dispatch(loginToSpotify());
+      window.location.reload();
+      window.location.reload();
     } catch {
       window.alert('Wrong password');
     }

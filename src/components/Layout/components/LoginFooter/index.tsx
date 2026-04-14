@@ -18,7 +18,8 @@ export const LoginFooter = memo(() => {
     setBusy(true);
     try {
       await authService.login(password);
-      await dispatch(loginToSpotify());
+      window.location.reload();
+      window.location.reload();
     } catch {
       message.error('Wrong password');
     } finally {
