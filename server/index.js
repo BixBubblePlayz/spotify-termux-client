@@ -185,7 +185,20 @@ app.get('/api/me', authRequired, async (_req, res) => {
   res.status(spotifyRes.status).json(data);
 });
 
-app.use(express.static(path.join(__dirname, '..', 'build')));
-app.use((_req, res) => res.sendFile(path.join(__dirname, '..', 'build', 'index.html')));
+const buildDir = path.join(__dirname, '..', 'build');
+const buildIndex = path.join(buildDir, 'index.html');
+
+if (fs.existsSync(buildIndex)) {
+  app.use(express.static(buildDir));
+  app.use((_req, res) => res.sendFile(buildIndex));
+} else {
+  app.get('/', (_req, res) => {
+    res.json({
+      ok: true,
+      mode: 'api-only',
+      message: 'Build folder not found. Run npm run build for production UI or npm run termux for dev mode.',
+    });
+  });
+}
 
 app.listen(PORT, '0.0.0.0', () => console.log(`Server listening on http://0.0.0.0:${PORT}`));
