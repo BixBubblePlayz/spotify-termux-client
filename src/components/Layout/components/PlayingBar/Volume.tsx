@@ -31,6 +31,8 @@ export const VolumeControls = () => {
   const [volume, setVolume] = useState<number>(0.05);
 
   const muted = volume === 0;
+  const MAX_VOLUME = 0.5;
+  const clampVolume = (value: number) => Math.max(0, Math.min(MAX_VOLUME, value));
 
   return (
     <div className='volume-control-container'>
@@ -38,8 +40,8 @@ export const VolumeControls = () => {
         <Tooltip title={muted ? t('Unmute') : t('Mute')}>
           <div
             onClick={() => {
-              playerService.setVolume(muted ? Math.round(volume * 100) : 0).then();
-              setVolume(muted ? volume : 0.05);
+              playerService.setVolume(muted ? Math.round(clampVolume(volume) * 100) : 0).then();
+              setVolume(muted ? clampVolume(volume) : 0.05);
             }}
           >
             {getIcon(muted ? 0 : volume)}
